@@ -25,6 +25,22 @@ class UsersRouter extends Router {
       });
     });
 
+    application.post('/users', (req, res, next) => {
+      let user = new User(req.body);
+      user.save((err) => {
+        if(!err) {
+          res.status(201);
+          res.json({ message: 'User created successfully!' });
+        } else {
+          console.log(err, 'error')
+          res.status(400);
+          res.json({ message: 'Problems to save user, check the body in the requisition', error: err.message || err.errmsg });
+        }
+
+        return next();
+      })
+    })
+
   }
 }
 

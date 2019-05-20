@@ -30,6 +30,7 @@ export class Server {
         }
 
         this.application.use(restify.plugins.queryParser());
+        this.application.use(restify.plugins.jsonBodyParser());
 
         this.application.listen(environment.server.port, () => {
           resolve(this.application);
