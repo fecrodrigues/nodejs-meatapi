@@ -1,0 +1,20 @@
+{
+  "name": "meat-api",
+  "version": "1.0.0",
+  "description": "API de Restaurantes",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "restify": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.2",
+    "@types/restify": "^7.2.10"
+  }
+}
