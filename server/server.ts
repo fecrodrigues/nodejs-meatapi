@@ -24,13 +24,13 @@ export class Server {
             version: '1.0.0'
         });
 
+        this.application.use(restify.plugins.queryParser());
+        this.application.use(restify.plugins.bodyParser());
+
         //routers
         for (let router of routers) {
           router.applyRoutes(this.application);
         }
-
-        this.application.use(restify.plugins.queryParser());
-        this.application.use(restify.plugins.jsonBodyParser());
 
         this.application.listen(environment.server.port, () => {
           resolve(this.application);

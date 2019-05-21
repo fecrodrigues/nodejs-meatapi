@@ -27,19 +27,39 @@ class UsersRouter extends Router {
 
     application.post('/users', (req, res, next) => {
       let user = new User(req.body);
-      user.save((err) => {
+      user.save((err, user) => {
         if(!err) {
           res.status(201);
-          res.json({ message: 'User created successfully!' });
+          user.password = undefined;
+          res.json({ message: 'User created successfully!', user: user });
         } else {
-          console.log(err, 'error')
           res.status(400);
           res.json({ message: 'Problems to save user, check the body in the requisition', error: err.message || err.errmsg });
         }
 
         return next();
       })
-    })
+    });
+
+    application.put('/users/:id', (req, res, next) => {
+      const options = { overwrite: true }
+      User.update({ _id: req.params.id }, req.body, options, (err) => {
+        if(!err) {
+          User.findOne({ _id: req.params.id }, (err, user) => {
+            if(!err) {
+              res.json({ message: 'User successfully replaced', user: user });
+            }
+
+            return next();
+          })
+
+        } else {
+          res.status(404);
+          res.json({ message: 'User not found', error: err.message || err.errmsg });
+          return next();
+        }
+      });
+    });
 
   }
 }
