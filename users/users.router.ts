@@ -1,4 +1,6 @@
 import * as restify from 'restify';
+import {NotFoundError} from 'restify-errors';
+
 import {Router} from '../common/router';
 import {User} from './users.model';
 
@@ -33,9 +35,7 @@ class UsersRouter extends Router {
         if(!err) {
           User.findById({ _id: req.params.id }, this.render(res, next));
         } else {
-          res.status(404);
-          res.json({ message: 'User not found', error: err.message || err.errmsg });
-          return next();
+          return next(new NotFoundError('Document not found'));
         }
       });
     });
@@ -50,8 +50,7 @@ class UsersRouter extends Router {
         if(!err) {
           res.send(204);
         } else {
-          res.status(404);
-          res.json({ message: 'User not found', error: err.message || err.errmsg });
+          return next(new NotFoundError('Document not found'));
         }
       })
     });
